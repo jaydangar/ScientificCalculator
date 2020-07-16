@@ -48,8 +48,8 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
   Stream<CalculatorState> _mapButtonDeletePressedEventToState(
       CalculatorClearButtonPressed event) async* {
     String strInput = buffer.toString();
+    buffer.clear();
     if (strInput.length > 1) {
-      buffer.clear();
       buffer.write(strInput.substring(0, strInput.length - 1));
     } else {
       strInput = '0';
