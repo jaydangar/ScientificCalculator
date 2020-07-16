@@ -1,8 +1,13 @@
 import 'package:calculator/pages/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
-  runApp(MainPage());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(MainPage());
+  });
 }
 
 class MainPage extends StatelessWidget {
