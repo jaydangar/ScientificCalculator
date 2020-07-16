@@ -49,11 +49,7 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
       CalculatorClearButtonPressed event) async* {
     String strInput = buffer.toString();
     buffer.clear();
-    if (strInput.length > 1) {
-      buffer.write(strInput.substring(0, strInput.length - 1));
-    } else {
-      strInput = '0';
-    }
-    yield CalculatorDeleteState(input: strInput);
+    buffer.write(strInput.substring(0, strInput.length - 1));
+    yield CalculatorDeleteState(input: buffer.toString());
   }
 }
