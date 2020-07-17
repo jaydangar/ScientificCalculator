@@ -28,12 +28,20 @@ class CalculatorEvaluateState extends CalculatorState {
   List<Object> get props => [this.output];
 }
 
-
 class CalculatorDeleteState extends CalculatorState {
-  final String input;
+  final String output;
 
-  CalculatorDeleteState({@required this.input});
+  CalculatorDeleteState({@required this.output});
 
   @override
-  List<Object> get props => [this.input];
+  List<Object> get props => [this.output];
+}
+
+class CalculatorClearState extends CalculatorState {
+  final String output;
+
+  CalculatorClearState({@required this.output});
+
+  @override
+  List<Object> get props => [this.output];
 }

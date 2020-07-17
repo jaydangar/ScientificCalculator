@@ -24,17 +24,25 @@ class CalculatorUI extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).buttonColor,
+      appBar: AppBar(
+        title: Text('Scientific Calculator'),
+      ),
       body: Column(
         children: <Widget>[
           BlocBuilder(
             bloc: BlocProvider.of<CalculatorBloc>(context),
             builder: (context, state) {
               if (state is CalculatorInitial) {
+                return OutputDisplay(
+                  data: state.initValue,
+                );
               } else if (state is CalculatorAddInputState) {
                 return OutputDisplay(data: state.input);
-              } else if (state is CalculatorDeleteState) {
-                return OutputDisplay(data: state.input);
               } else if (state is CalculatorEvaluateState) {
+                return OutputDisplay(data: state.output);
+              } else if (state is CalculatorDeleteState) {
+                return OutputDisplay(data: state.output);
+              } else if (state is CalculatorClearState) {
                 return OutputDisplay(data: state.output);
               }
               return OutputDisplay(
@@ -79,7 +87,8 @@ class CalculatorUI extends StatelessWidget {
                         child: RaisedIconButtonWidget(
                           icon: Calculator.eq,
                           buttoncolor: Colors.blue,
-                          action: CalculatorActions.solve,
+                          onLongPressAction: CalculatorActions.solve,
+                          onPressAction: CalculatorActions.solve,
                         ),
                       ),
                     ],
@@ -91,37 +100,42 @@ class CalculatorUI extends StatelessWidget {
                     children: <Widget>[
                       Expanded(
                         child: RaisedIconButtonWidget(
+                          onLongPressAction: CalculatorActions.delete,
                           icon: Icons.backspace,
                           buttoncolor: Colors.red,
-                          action: CalculatorActions.delete,
+                          onPressAction: CalculatorActions.delete,
                         ),
                       ),
                       Expanded(
                         child: RaisedIconButtonWidget(
                           icon: Calculator.divide,
                           buttoncolor: Colors.green,
-                          action: CalculatorActions.divide,
+                          onLongPressAction: CalculatorActions.divide,
+                          onPressAction: CalculatorActions.divide,
                         ),
                       ),
                       Expanded(
                         child: RaisedIconButtonWidget(
                           icon: Calculator.cancel,
                           buttoncolor: Colors.green,
-                          action: CalculatorActions.multiply,
+                          onLongPressAction: CalculatorActions.multiply,
+                          onPressAction: CalculatorActions.multiply,
                         ),
                       ),
                       Expanded(
                         child: RaisedIconButtonWidget(
                           icon: Calculator.minus,
                           buttoncolor: Colors.green,
-                          action: CalculatorActions.substract,
+                          onLongPressAction: CalculatorActions.substract,
+                          onPressAction: CalculatorActions.substract,
                         ),
                       ),
                       Expanded(
                         child: RaisedIconButtonWidget(
                           icon: Calculator.plus_1,
                           buttoncolor: Colors.green,
-                          action: CalculatorActions.add,
+                          onLongPressAction: CalculatorActions.add,
+                          onPressAction: CalculatorActions.add,
                         ),
                       ),
                     ],

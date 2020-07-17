@@ -9,14 +9,16 @@ class RaisedIconButtonWidget extends StatefulWidget {
   final Color textcolor;
   final double margin;
   final IconData icon;
-  final CalculatorActions action;
+  final CalculatorActions onLongPressAction;
+  final CalculatorActions onPressAction;
 
   RaisedIconButtonWidget(
       {this.padding,
       this.buttoncolor,
       this.textcolor,
       this.margin,
-      @required this.action,
+      @required this.onLongPressAction,
+      @required this.onPressAction,
       @required this.icon});
 
   @override
@@ -28,17 +30,26 @@ class _RaisedIconButtonWidgetState extends State<RaisedIconButtonWidget> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(widget?.margin ?? 4),
-      child: RaisedButton(
-        color: widget?.buttoncolor ?? Theme.of(context).buttonColor,
-        onPressed: () => performAction(context,widget.action),
+      child: RawMaterialButton(
+        
+        onPressed: () => onPressAction(
+          context,
+          widget.onPressAction,
+          BlocProvider.of<CalculatorBloc>(context),
+        ),
+        onLongPress: () => onLongPressAction(
+          context,
+          widget.onLongPressAction,
+          BlocProvider.of<CalculatorBloc>(context),
+        ),
         child: Icon(widget.icon),
       ),
     );
   }
 
-  void performAction(BuildContext context,CalculatorActions action){
-    CalculatorBloc bloc = BlocProvider.of<CalculatorBloc>(context);
-    switch(action){
+  void onPressAction(
+      BuildContext context, CalculatorActions action, CalculatorBloc bloc) {
+    switch (action) {
       case CalculatorActions.add:
         bloc.add(CalculatorButtonPressed(buttonText: '+'));
         break;
@@ -56,6 +67,25 @@ class _RaisedIconButtonWidgetState extends State<RaisedIconButtonWidget> {
         break;
       case CalculatorActions.solve:
         bloc.add(CalculatorSolveButtonPressed());
+        break;
+    }
+  }
+
+  void onLongPressAction(
+      BuildContext context, CalculatorActions action, CalculatorBloc bloc) {
+    switch (action) {
+      case CalculatorActions.delete:
+        bloc.add(CalculatorClearButtonLongPressed());
+        break;
+      case CalculatorActions.add:
+        break;
+      case CalculatorActions.substract:
+        break;
+      case CalculatorActions.divide:
+        break;
+      case CalculatorActions.multiply:
+        break;
+      case CalculatorActions.solve:
         break;
     }
   }

@@ -17,6 +17,11 @@ class CalculatorClearButtonPressed extends CalculatorEvent {
   List<Object> get props => [];
 }
 
+class CalculatorClearButtonLongPressed extends CalculatorEvent {
+  @override
+  List<Object> get props => [];
+}
+
 class CalculatorSolveButtonPressed extends CalculatorEvent {
   @override
   List<Object> get props => [];

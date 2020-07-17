@@ -25,11 +25,15 @@ class _RaisedButtonWidgetState extends State<RaisedButtonWidget> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(widget?.margin ?? 4),
-      child: RaisedButton(
-        onPressed: () => BlocProvider.of<CalculatorBloc>(context).add(CalculatorButtonPressed(buttonText: widget.data)),
-        child: Text(widget.data),
-        color: widget?.buttoncolor ?? Colors.black,
-        textColor: widget?.textcolor ?? Colors.white,
+      child: RawMaterialButton(
+        shape: CircleBorder(),
+        onPressed: () => BlocProvider.of<CalculatorBloc>(context)
+            .add(CalculatorButtonPressed(buttonText: widget.data)),
+        child: Text(
+          widget.data,
+          style: TextStyle(color: widget?.textcolor ?? Colors.white),
+        ),
+        fillColor: widget?.buttoncolor ?? Colors.black,
       ),
     );
   }

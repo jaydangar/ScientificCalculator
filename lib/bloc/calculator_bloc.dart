@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:math_expressions/math_expressions.dart';
 import 'package:meta/meta.dart';
-import 'package:function_tree/function_tree.dart';
 
 part 'calculator_event.dart';
 part 'calculator_state.dart';
@@ -21,6 +21,8 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
       yield* _mapButtonPressedEventToState(event);
     } else if (event is CalculatorClearButtonPressed) {
       yield* _mapButtonDeletePressedEventToState(event);
+    } else if (event is CalculatorClearButtonLongPressed) {
+      yield* _mapButtonDeleteLongPressedEventToState(event);
     } else if (event is CalculatorSolveButtonPressed) {
       yield* _mapButtonSolveEventToState(event);
     }
@@ -29,14 +31,19 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
   Stream<CalculatorState> _mapButtonSolveEventToState(
       CalculatorSolveButtonPressed event) async* {
     String expressionStr = buffer.toString();
-    String output = 'Invalid Expression';
+    String output;
+    Expression expression;
     try {
-      output = expressionStr.interpret().toString();
+      expression = Parser().parse(expressionStr);
       buffer.clear();
-      buffer.write(output);
-    } catch (e) {}
-
-    yield CalculatorEvaluateState(output: output);
+      buffer.write(expression.evaluate(EvaluationType.REAL, ContextModel()));
+      output = buffer.toString();
+      yield CalculatorEvaluateState(output: output);
+    } on StateError catch(e){
+      yield CalculatorEvaluateState(output: e.message);
+    } on ArgumentError catch(e){
+      yield CalculatorEvaluateState(output: e.message);
+    }
   }
 
   Stream<CalculatorState> _mapButtonPressedEventToState(
@@ -47,9 +54,17 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
 
   Stream<CalculatorState> _mapButtonDeletePressedEventToState(
       CalculatorClearButtonPressed event) async* {
-    String strInput = buffer.toString();
+    if (buffer.length > 0) {
+      String strInput = buffer.toString();
+      buffer.clear();
+      buffer.write(strInput.substring(0, strInput.length - 1));
+      yield CalculatorDeleteState(output: buffer.toString());
+    }
+  }
+
+  Stream<CalculatorState> _mapButtonDeleteLongPressedEventToState(
+      CalculatorClearButtonLongPressed event) async* {
     buffer.clear();
-    buffer.write(strInput.substring(0, strInput.length - 1));
-    yield CalculatorDeleteState(input: buffer.toString());
+    yield CalculatorClearState(output: '0');
   }
 }
