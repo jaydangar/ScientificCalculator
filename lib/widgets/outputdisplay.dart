@@ -10,19 +10,13 @@ class OutputDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      flex: 1,
-      fit: FlexFit.tight,
-      child: Card(
-        child: Container(
-          margin: EdgeInsets.all(8),
-          alignment: Alignment.bottomRight,
-          child: Text(
-            data,
-            style: Theme.of(context).textTheme.headline4,
-            maxLines: 3,
-            textAlign: TextAlign.end,
-          ),
+    return SizedBox.fromSize(
+      size: Size.fromHeight(MediaQuery.of(context).size.height * 0.25),
+      child: Align(
+        alignment: Alignment.bottomRight,
+        child: Text(
+          data,
+          style: Theme.of(context).textTheme.headline4,
         ),
       ),
     );

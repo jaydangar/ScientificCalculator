@@ -3,6 +3,7 @@ import 'package:calculator/utils/actions.dart';
 import 'package:calculator/widgets/button_widget.dart';
 import 'package:calculator/utils/calculator_icons.dart';
 import 'package:calculator/widgets/icon_button_widget.dart';
+import 'package:calculator/widgets/materialbuttonwidget.dart';
 import 'package:calculator/widgets/outputdisplay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,10 +24,6 @@ class CalculatorUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).buttonColor,
-      appBar: AppBar(
-        title: Text('Scientific Calculator'),
-      ),
       body: Column(
         children: <Widget>[
           BlocBuilder(
@@ -50,8 +47,67 @@ class CalculatorUI extends StatelessWidget {
               );
             },
           ),
+          Divider(),
+          Container(
+            padding: EdgeInsets.all(4),
+            alignment: Alignment.center,
+            child: SizedBox(
+              child: Table(
+                children: [
+                  TableRow(
+                    children: [
+                      MaterialButtonWidget(
+                        buttoncolor: Colors.orange,
+                        data: '√',
+                      ),
+                      MaterialButtonWidget(
+                        buttoncolor: Colors.orange,
+                        data: 'π',
+                      ),
+                      MaterialButtonWidget(
+                        buttoncolor: Colors.orange,
+                        data: 'tan',
+                      ),
+                      MaterialButtonWidget(
+                        buttoncolor: Colors.orange,
+                        data: 'log',
+                      ),
+                      MaterialButtonWidget(
+                        buttoncolor: Colors.orange,
+                        data: 'ln',
+                      ),
+                    ],
+                  ),
+                  TableRow(
+                    children: [
+                      MaterialButtonWidget(
+                        buttoncolor: Colors.orange,
+                        data: '^',
+                      ),
+                      MaterialButtonWidget(
+                        buttoncolor: Colors.orange,
+                        data: 'e',
+                      ),
+                      MaterialButtonWidget(
+                        buttoncolor: Colors.orange,
+                        data: '%',
+                      ),
+                      MaterialButtonWidget(
+                        buttoncolor: Colors.orange,
+                        data: '(',
+                      ),
+                      MaterialButtonWidget(
+                        buttoncolor: Colors.orange,
+                        data: ')',
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Divider(),
           Expanded(
-            flex: 2,
             child: Row(
               children: <Widget>[
                 Expanded(
@@ -94,54 +150,69 @@ class CalculatorUI extends StatelessWidget {
                     ],
                   ),
                 ),
+                VerticalDivider(color: Colors.black26),
                 Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      Expanded(
-                        child: RaisedIconButtonWidget(
-                          onLongPressAction: CalculatorActions.delete,
-                          icon: Icons.backspace,
-                          buttoncolor: Colors.red,
-                          onPressAction: CalculatorActions.delete,
-                        ),
-                      ),
-                      Expanded(
-                        child: RaisedIconButtonWidget(
-                          icon: Calculator.divide,
-                          buttoncolor: Colors.green,
-                          onLongPressAction: CalculatorActions.divide,
-                          onPressAction: CalculatorActions.divide,
-                        ),
-                      ),
-                      Expanded(
-                        child: RaisedIconButtonWidget(
-                          icon: Calculator.cancel,
-                          buttoncolor: Colors.green,
-                          onLongPressAction: CalculatorActions.multiply,
-                          onPressAction: CalculatorActions.multiply,
-                        ),
-                      ),
-                      Expanded(
-                        child: RaisedIconButtonWidget(
-                          icon: Calculator.minus,
-                          buttoncolor: Colors.green,
-                          onLongPressAction: CalculatorActions.substract,
-                          onPressAction: CalculatorActions.substract,
-                        ),
-                      ),
-                      Expanded(
-                        child: RaisedIconButtonWidget(
-                          icon: Calculator.plus_1,
-                          buttoncolor: Colors.green,
-                          onLongPressAction: CalculatorActions.add,
-                          onPressAction: CalculatorActions.add,
-                        ),
-                      ),
-                    ],
-                  ),
+                  child: BasicCalculatorOperationWidget(),
                 ),
               ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class BasicCalculatorOperationWidget extends StatelessWidget {
+  const BasicCalculatorOperationWidget({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(4),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Expanded(
+            child: RaisedIconButtonWidget(
+              onLongPressAction: CalculatorActions.delete,
+              icon: Icons.backspace,
+              buttoncolor: Colors.red,
+              onPressAction: CalculatorActions.delete,
+            ),
+          ),
+          Expanded(
+            child: RaisedIconButtonWidget(
+              icon: Calculator.divide,
+              buttoncolor: Colors.green,
+              onLongPressAction: CalculatorActions.divide,
+              onPressAction: CalculatorActions.divide,
+            ),
+          ),
+          Expanded(
+            child: RaisedIconButtonWidget(
+              icon: Calculator.cancel,
+              buttoncolor: Colors.green,
+              onLongPressAction: CalculatorActions.multiply,
+              onPressAction: CalculatorActions.multiply,
+            ),
+          ),
+          Expanded(
+            child: RaisedIconButtonWidget(
+              icon: Calculator.minus,
+              buttoncolor: Colors.green,
+              onLongPressAction: CalculatorActions.substract,
+              onPressAction: CalculatorActions.substract,
+            ),
+          ),
+          Expanded(
+            child: RaisedIconButtonWidget(
+              icon: Calculator.plus_1,
+              buttoncolor: Colors.green,
+              onLongPressAction: CalculatorActions.add,
+              onPressAction: CalculatorActions.add,
             ),
           ),
         ],

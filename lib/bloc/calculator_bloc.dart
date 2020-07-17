@@ -39,16 +39,19 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
       buffer.write(expression.evaluate(EvaluationType.REAL, ContextModel()));
       output = buffer.toString();
       yield CalculatorEvaluateState(output: output);
-    } on StateError catch(e){
-      yield CalculatorEvaluateState(output: e.message);
-    } on ArgumentError catch(e){
-      yield CalculatorEvaluateState(output: e.message);
+    } on StateError {
+      yield CalculatorEvaluateState(output: 'Invalid Expression');
+    } on ArgumentError {
+      yield CalculatorEvaluateState(output: 'Invalid Expression');
+    } on Exception {
+      yield CalculatorEvaluateState(output: 'Invalid Expression');
     }
   }
 
   Stream<CalculatorState> _mapButtonPressedEventToState(
       CalculatorButtonPressed event) async* {
-    buffer.write(event.buttonText);
+    String newText = event.buttonText;
+    buffer.write(fetchMathOperator(newText));
     yield CalculatorAddInputState(input: buffer.toString());
   }
 
@@ -66,5 +69,18 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
       CalculatorClearButtonLongPressed event) async* {
     buffer.clear();
     yield CalculatorClearState(output: '0');
+  }
+
+  String fetchMathOperator(String input){
+    switch (input) {
+      case '√':
+        return 'sqrt';
+        break;
+      case 'π':
+        return '3.14159265';
+        break;
+      default:
+        return input;
+    }
   }
 }

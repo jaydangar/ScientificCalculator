@@ -31,7 +31,6 @@ class _RaisedIconButtonWidgetState extends State<RaisedIconButtonWidget> {
     return Container(
       margin: EdgeInsets.all(widget?.margin ?? 4),
       child: RawMaterialButton(
-        
         onPressed: () => onPressAction(
           context,
           widget.onPressAction,
@@ -42,7 +41,10 @@ class _RaisedIconButtonWidgetState extends State<RaisedIconButtonWidget> {
           widget.onLongPressAction,
           BlocProvider.of<CalculatorBloc>(context),
         ),
-        child: Icon(widget.icon),
+        child: Icon(
+          widget.icon,
+          color: widget?.buttoncolor ?? null,
+        ),
       ),
     );
   }
